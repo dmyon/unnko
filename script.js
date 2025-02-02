@@ -1,4 +1,3 @@
-
 document.getElementById('start-game').addEventListener('click', function() {
     const selectedPlayers = Array.from(document.querySelectorAll('#players input:checked'))
         .map(input => input.value);
@@ -45,7 +44,6 @@ function loadScoreBoard() {
 }
 
 function updateScore(player, amount) {
-    let scores = JSON.parse(localStorage.getItem('scores'));
     let currentScore = document.getElementById(`score-${player}`);
     currentScore.textContent = parseInt(currentScore.textContent) + amount;
 }
@@ -74,8 +72,29 @@ document.getElementById('save-score').addEventListener('click', function() {
     document.getElementById('game-count').textContent = gameCount;
     document.getElementById('error-message').textContent = '';
 
-    // 今回のスコアをリセット
     players.forEach(player => {
         document.getElementById(`score-${player}`).textContent = '0';
     });
+});
+
+document.getElementById('end-game').addEventListener('click', function() {
+    const scores = JSON.parse(localStorage.getItem('scores')) || {};
+    const sortedPlayers = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+    const resultList = document.getElementById('result-list');
+    resultList.innerHTML = '';
+
+    sortedPlayers.forEach(([player, score], index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}位: ${player} - ${score}点`;
+        resultList.appendChild(li);
+    });
+
+    document.getElementById('score-board').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+});
+
+document.getElementById('restart-game').addEventListener('click', function() {
+    localStorage.clear();
+    location.reload();
 });
