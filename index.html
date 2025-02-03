@@ -1,51 +1,53 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>スコア計算アプリ</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script defer src="script.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="player-selection">
-        <h2>プレイヤーを選択</h2>
-        <div id="players">
-            <label><input type="checkbox" value="あんだい"> あんだい</label>
-            <label><input type="checkbox" value="どぅー"> どぅー</label>
-            <label><input type="checkbox" value="かずき"> かずき</label>
-            <label><input type="checkbox" value="なつき"> なつき</label>
-            <label><input type="checkbox" value="あゆむ"> あゆむ</label>
-            <label><input type="checkbox" value="きみや"> きみや</label>
-            <label><input type="checkbox" value="けいすけ"> けいすけ</label>
-            <label><input type="checkbox" value="はるき"> はるき</label>
-        </div>
-        <button id="start-game">ゲーム開始</button>
-    </div>
-    
-    <div id="score-board" style="display: none;">
-        <h2>スコアボード</h2>
-        <div id="game-info">ゲーム数: <span id="game-count">1</span></div>
-        <table id="scores">
-            <thead>
-                <tr>
-                    <th>名前</th>
-                    <th>合計スコア</th>
-                    <th>今回のスコア</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <button id="save-score">セーブ</button>
-        <span id="error-message" class="error"></span>
-        <button id="end-game">ゲーム終了</button>
+      <h2>プレイヤーを選択</h2>
+      <div id="players">
+        <label><input type="checkbox" value="あんだい" /> あんだい</label>
+        <label><input type="checkbox" value="どぅー" /> どぅー</label>
+        <label><input type="checkbox" value="かずき" /> かずき</label>
+        <label><input type="checkbox" value="なつき" /> なつき</label>
+        <label><input type="checkbox" value="あゆむ" /> あゆむ</label>
+        <label><input type="checkbox" value="きみや" /> きみや</label>
+        <label><input type="checkbox" value="けいすけ" /> けいすけ</label>
+        <label><input type="checkbox" value="はるき" /> はるき</label>
+      </div>
+      <button id="start-game">ゲーム開始</button>
     </div>
 
-    <div id="result-screen" style="display: none;">
-        <h2>ゲーム結果</h2>
-        <ul id="result-list"></ul>
-        <button id="restart-game">もう一度プレイ</button>
+    <div id="score-board" style="display: none">
+      <h2>スコアボード</h2>
+      <div id="game-info">ゲーム数: <span id="game-count">1</span></div>
+      <table id="scores">
+        <thead>
+          <tr>
+            <th>名前</th>
+            <th>合計スコア</th>
+            <th>今回のスコア</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button id="save-score">セーブ</button>
+      <span id="error-message" class="error"></span>
+      <button id="end-game">ゲーム終了</button>
+      <span style="display: block"></span>
+      <button style="color: darkblue" id="reset-scores">スコアリセット</button>
     </div>
-</body>
+
+    <div id="result-screen" style="display: none">
+      <h2>ゲーム結果</h2>
+      <ul id="result-list"></ul>
+      <button id="restart-game">もう一度プレイ</button>
+    </div>
+  </body>
 </html>
