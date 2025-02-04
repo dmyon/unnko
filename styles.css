@@ -128,3 +128,10 @@ button:active {
   margin-top: 10px;
   font-weight: bold;
 }
+
+/*リセットボタンレイアウト */
+.score-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
