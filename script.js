@@ -1,5 +1,3 @@
-// 修正済み script.js（アロー関数を使用しないバージョン）
-
 // 「ゲーム開始」ボタンをクリックした際の処理
 document.getElementById('start-game').addEventListener('click', function () {
   var selectedPlayers = Array.from(
@@ -96,8 +94,10 @@ document.getElementById('save-score').addEventListener('click', function () {
     document.getElementById(`total-${player}`).textContent = scores[player];
     applyScoreStyles(player, document.getElementById(`total-${player}`));
 
-    // 今回のスコアを0にリセット
-    document.getElementById(`score-${player}`).textContent = '0';
+    // 今回のスコアを0にリセットし、文字色を解除
+    var scoreElement = document.getElementById(`score-${player}`);
+    scoreElement.textContent = '0';
+    scoreElement.classList.remove('negative', 'legendary');
   });
 
   // 更新されたスコアとゲーム回数を保存
