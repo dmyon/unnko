@@ -33,7 +33,7 @@ function applyScoreStyles(player, element) {
   element.classList.toggle('legendary', score > 9900);
 }
 
-// スコアボードをロードする処理
+// スコアボードをロードする処理を更新
 function loadScoreBoard() {
   var players = JSON.parse(localStorage.getItem('players')) || [];
   var scores = JSON.parse(localStorage.getItem('scores')) || {};
@@ -45,24 +45,70 @@ function loadScoreBoard() {
   players.forEach(function (player) {
     var row = document.createElement('tr');
     row.innerHTML = `
-            <td>${player}</td>
-            <td id="total-${player}">${scores[player]}</td>
-            <td id="score-${player}">0</td>
-            <td>
-                <div class="score-buttons">
-                    <button onclick="updateScore('${player}', -100)">-100</button>
-                    <button onclick="updateScore('${player}', 100)">+100</button>
-                </div>
-            </td>
-        `;
+      <td>${player}</td>
+      <td id="total-${player}">${scores[player]}</td>
+      <td id="score-${player}">0</td>
+      <td>
+        <div class="score-buttons">
+          <input 
+            type="number" 
+            id="input-${player}" 
+            value="100" 
+            min="0" 
+            max="999900" 
+            step="100"
+            class="score-input"
+          >
+          <button onclick="updateScore('${player}', true)">+</button>
+          <button onclick="updateScore('${player}', false)">-</button>
+        </div>
+      </td>
+    `;
     scoresTable.appendChild(row);
+
+    // 入力フィールドのイベントリスナーを追加
+    const input = document.getElementById(`input-${player}`);
+
+    // 上下キーでの100ずつの増減を確実にする
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        const currentValue = parseInt(this.value) || 0;
+        if (e.key === 'ArrowUp') {
+          this.value = currentValue + 100;
+        } else {
+          this.value = Math.max(0, currentValue - 100);
+        }
+        e.preventDefault();
+      }
+    });
+
+    // 入力値が100の倍数になるように調整
+    input.addEventListener('change', function () {
+      let value = parseInt(this.value) || 0;
+      value = Math.round(value / 100) * 100;
+      value = Math.max(0, Math.min(999900, value));
+      this.value = value;
+    });
   });
 }
 
-// スコアを更新する処理
-function updateScore(player, amount) {
+// スコアを更新する処理は同じ
+function updateScore(player, isAdd) {
   var scoreElement = document.getElementById(`score-${player}`);
-  scoreElement.textContent = parseInt(scoreElement.textContent) + amount;
+  var inputElement = document.getElementById(`input-${player}`);
+  var amount = parseInt(inputElement.value) || 0;
+
+  // 不正な値のチェック
+  if (amount < 0) {
+    alert('正の数を入力してください');
+    inputElement.value = 100;
+    return;
+  }
+
+  // プラスかマイナスかを判定して計算
+  var newScore =
+    parseInt(scoreElement.textContent) + (isAdd ? amount : -amount);
+  scoreElement.textContent = newScore;
   applyScoreStyles(player, scoreElement);
 }
 
@@ -94,10 +140,16 @@ document.getElementById('save-score').addEventListener('click', function () {
     document.getElementById(`total-${player}`).textContent = scores[player];
     applyScoreStyles(player, document.getElementById(`total-${player}`));
 
-    // 今回のスコアを0にリセットし、文字色を解除
+    // 今回のスコアを0にリセットし、赤文字を解除
     var scoreElement = document.getElementById(`score-${player}`);
     scoreElement.textContent = '0';
     scoreElement.classList.remove('negative', 'legendary');
+
+    // score-inputの値を100にリセット
+    var inputElement = document.getElementById(`input-${player}`);
+    if (inputElement) {
+      inputElement.value = 100;
+    }
   });
 
   // 更新されたスコアとゲーム回数を保存

@@ -131,25 +131,44 @@ button:active {
   font-weight: bold;
 }
 
+.score-input {
+  width: 80px;
+  padding: 8px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 16px;
+}
+
 /*リセットボタンレイアウト */
 .score-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 5px;
 }
 
-/* スマホ向けの最適化 */
+.score-buttons button {
+  padding: 8px 15px;
+  font-size: 16px;
+  min-width: 40px;
+}
+
+/* スマホ対応 */
 @media screen and (max-width: 600px) {
-  body {
-    font-size: 14px;
-  }
-
-  table {
-    font-size: 14px;
-  }
-
   .score-buttons {
-    flex-direction: column; /* スマホではボタンを縦に並べる */
-    gap: 5px;
+    flex-direction: row;
+    gap: 2px;
+  }
+
+  .score-input {
+    width: 60px;
+    font-size: 14px;
+  }
+
+  .score-buttons button {
+    padding: 6px 12px;
+    font-size: 14px;
   }
 }
