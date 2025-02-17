@@ -1,11 +1,13 @@
 // 「ゲーム開始」ボタンをクリックした際の処理
 document.getElementById('start-game').addEventListener('click', function () {
+  // チェックされたプレイヤーを取得
   var selectedPlayers = Array.from(
     document.querySelectorAll('#players input:checked')
   ).map(function (input) {
     return input.value; // 選択されたプレイヤーの値（名前）を取得
   });
 
+  // プレイヤーが2人未満なら警告表示して処理中断
   if (selectedPlayers.length < 2) {
     alert('少なくとも2人のプレイヤーを選択してください');
     return;
@@ -42,6 +44,7 @@ function loadScoreBoard() {
   var scoresTable = document.querySelector('#scores tbody');
   scoresTable.innerHTML = '';
 
+  // 各プレイヤーの行を作成
   players.forEach(function (player) {
     var row = document.createElement('tr');
     row.innerHTML = `
@@ -131,6 +134,7 @@ document.getElementById('save-score').addEventListener('click', function () {
     return;
   }
 
+  // 各プレイヤーのスコアを更新
   var players = JSON.parse(localStorage.getItem('players')) || [];
   players.forEach(function (player) {
     var currentScore = parseInt(
@@ -152,7 +156,7 @@ document.getElementById('save-score').addEventListener('click', function () {
     }
   });
 
-  // 更新されたスコアとゲーム回数を保存
+  // 更新時のスコアとゲーム数を保存
   localStorage.setItem('scores', JSON.stringify(scores));
   localStorage.setItem(
     'gameCount',
@@ -163,7 +167,7 @@ document.getElementById('save-score').addEventListener('click', function () {
   document.getElementById('error-message').textContent = '';
 });
 
-// 「ゲームリスタート」ボタンをクリックした際の処理
+// ゲームリスタート時の処理
 document.getElementById('restart-game').addEventListener('click', function () {
   ['players', 'scores', 'gameCount'].forEach(function (key) {
     localStorage.removeItem(key);
@@ -171,7 +175,7 @@ document.getElementById('restart-game').addEventListener('click', function () {
   location.reload();
 });
 
-// 「ゲーム終了」ボタンをクリックした際の処理
+// ゲーム終了時の処理
 document.getElementById('end-game').addEventListener('click', function () {
   if (confirm('セーブしましたか？')) {
     var scores = JSON.parse(localStorage.getItem('scores')) || {};
@@ -181,7 +185,7 @@ document.getElementById('end-game').addEventListener('click', function () {
 
     var resultList = document.getElementById('result-list');
     resultList.innerHTML = '';
-
+    // ランキング表示
     sortedPlayers.forEach(function (entry, index) {
       var li = document.createElement('li');
       li.textContent = index + 1 + '位: ' + entry[0] + ' ： ' + entry[1] + '点';
@@ -198,7 +202,7 @@ document.getElementById('end-game').addEventListener('click', function () {
   }
 });
 
-// 「スコアリセット」ボタンをクリックした際の処理
+// スコアリセット処理
 document.getElementById('reset-scores').addEventListener('click', function () {
   if (confirm('本当にスコアをリセットしますか？')) {
     var players = JSON.parse(localStorage.getItem('players')) || [];
